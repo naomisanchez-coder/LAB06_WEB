@@ -2,13 +2,108 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD de Posts</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #4a4a4a;
+            padding-bottom: 50px;
+        }
+        .section-title {
+            color: #4a4e69;
+            font-weight: 700;
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        .form-control {
+            border-radius: 12px;
+            border: 1px solid #dcd6f7;
+            background-color: #fcfaff;
+            padding: 12px;
+        }
+        .form-control:focus {
+            border-color: #b8c6db;
+            box-shadow: 0 0 8px rgba(184, 198, 219, 0.5);
+            background-color: #ffffff;
+        }
+        .btn-pastel-submit {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: #334155;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-pastel-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(161, 196, 253, 0.5);
+            color: #1e293b;
+        }
+        .post-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 18px;
+            transition: all 0.3s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08) !important;
+        }
+        .post-title {
+            color: #6c5ce7;
+            font-weight: 600;
+        }
+        .badge-pastel {
+            background-color: #e8dff5 !important;
+            color: #6c5ce7 !important;
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 6px 12px;
+        }
+        .btn-edit-pastel {
+            background-color: #ffeaa7;
+            color: #d63031;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+        }
+        .btn-edit-pastel:hover {
+            background-color: #fdcb6e;
+            color: #d63031;
+        }
+        .btn-delete-pastel {
+            background-color: #ff7675;
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+        }
+        .btn-delete-pastel:hover {
+            background-color: #d63031;
+            color: #ffffff;
+        }
+        .alert-pastel {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            color: #5c5470;
+            border: 1px solid #e8dff5;
+        }
+    </style>
 </head>
 <body class="container mt-5">
-    <h2 class="mb-4">Crear Nuevo Post</h2>
+    <h2 class="mb-4 section-title text-center">Crear Nuevo Post</h2>
     
-    <form action="/posts/create" method="POST" class="mb-5 border p-4 bg-light rounded">
+    <form action="/posts/create" method="POST" class="mb-5 p-4 form-container">
         <div class="mb-3">
             <input type="text" name="title" placeholder="Título (mín 5)" class="form-control" required>
         </div>
@@ -18,20 +113,20 @@
         <div class="mb-3">
             <input type="text" name="hashtags" placeholder="Hashtags (ej: node, mongo)" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary w-100">Publicar</button>
+        <button type="submit" class="btn btn-pastel-submit w-100">Publicar</button>
     </form>
 
-    <h2 class="mb-4">Muro de Publicaciones</h2>
+    <h2 class="mb-4 section-title text-center">Muro de Publicaciones</h2>
     <div class="row">
         <% if (posts.length > 0) { %>
             <% posts.forEach(post => { %>
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm post-card">
                         <div class="card-body">
-                            <h5 class="card-title text-primary"><%= post.title %></h5>
-                            <p class="card-text"><%= post.content %></p>
+                            <h5 class="card-title post-title"><%= post.title %></h5>
+                            <p class="card-text text-secondary"><%= post.content %></p>
                             
-                            <p class="card-text">
+                            <p class="card-text mt-3">
                                 <small class="text-muted">
                                     <strong>Autor:</strong> 
                                     <%= post.user ? post.user.name + " " + post.user.lastName : "Usuario no encontrado" %>
@@ -41,20 +136,22 @@
                             <% if (post.hashtags && post.hashtags.length > 0) { %>
                                 <div class="mb-2">
                                     <% post.hashtags.forEach(tag => { %>
-                                        <span class="badge bg-secondary">#<%= tag %></span>
+                                        <span class="badge badge-pastel">#<%= tag %></span>
                                     <% }) %>
                                 </div>
                             <% } %>
                         </div>
-                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
-                            <a href="/posts/edit/<%= post._id %>" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="/posts/delete/<%= post._id %>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este post?')">Eliminar</a>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between pb-3 px-3">
+                            <a href="/posts/edit/<%= post._id %>" class="btn btn-sm btn-edit-pastel px-3">Editar</a>
+                            <a href="/posts/delete/<%= post._id %>" class="btn btn-sm btn-delete-pastel px-3" onclick="return confirm('¿Seguro que deseas eliminar este post?')">Eliminar</a>
                         </div>
                     </div>
                 </div>
             <% }) %>
         <% } else { %>
-            <div class="alert alert-info">No hay publicaciones disponibles. ¡Crea la primera!</div>
+            <div class="col-12">
+                <div class="alert alert-pastel text-center p-4">No hay publicaciones disponibles. ¡Crea la primera!</div>
+            </div>
         <% } %>
     </div>
 </body>

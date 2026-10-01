@@ -1,26 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Media - Home</title>
-  <!-- Materialize CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+    .home-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 50px 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      max-width: 600px;
+      width: 90%;
+    }
+    .title-pastel {
+      color: #5c5470 !important;
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+    .subtitle-pastel {
+      color: #7b7588;
+      font-size: 1.2rem;
+    }
+    .btn-pastel {
+      background: linear-gradient(135deg, #b8c6db 0%, #f5f7fa 100%) !important;
+      background-color: #a1c4fd !important;
+      color: #4a4a4a !important;
+      font-weight: 600;
+      border-radius: 16px !important;
+      text-transform: none !important;
+      box-shadow: 0 6px 15px rgba(161, 196, 253, 0.4) !important;
+      transition: all 0.3s ease !important;
+      padding: 0 35px !important;
+    }
+    .btn-pastel:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(161, 196, 253, 0.6) !important;
+    }
+  </style>
 </head>
-<body class="container center-align" style="margin-top: 80px;">
+<body>
 
-  <h2 class="blue-text text-darken-2">Bienvenido a Social Media 🚀</h2>
-  <p class="flow-text">Conéctate, comparte y explora publicaciones</p>
+  <div class="home-card center-align">
+    <h2 class="title-pastel">Bienvenido a Social Media 🚀</h2>
+    <p class="subtitle-pastel">Conéctate, comparte y explora publicaciones</p>
 
-  <div class="row" style="margin-top: 50px;">
-    <div class="col s12 m12">
-      <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
-        <i class="material-icons left">image</i> Ver Pots
-      </a>
-    </div> 
+    <div class="row" style="margin-top: 40px; margin-bottom: 0;">
+      <div class="col s12">
+        <a href="/posts/" class="btn-large waves-effect waves-light btn-pastel">
+          <i class="material-icons left">image</i> Ver Posts
+        </a>
+      </div> 
+    </div>
   </div>
 
-  <!-- Materialize JS + icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </body>
 </html>

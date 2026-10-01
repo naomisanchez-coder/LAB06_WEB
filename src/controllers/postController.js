@@ -15,8 +15,11 @@ class PostController {
     // Crear nuevo post
     async create(req, res) {
         try {
-            // Usamos el ID de Sayuri que ya existe en tu DB para las pruebas
-            const user = await userRepository.findByEmail("sayuri.travezano@tecsup.edu.pe");
+            // Buscamos a tu usuario Naomi registrado en MongoDB
+            const user = await userRepository.findByEmail("naomi.sanchez@tecsup.edu.pe");
+            if (!user) {
+                return res.status(404).send("Error: Usuario Naomi no encontrado en la base de datos.");
+            }
             await postService.createPost(user._id, req.body);
             res.redirect("/posts");
         } catch (error) {
@@ -48,8 +51,7 @@ class PostController {
     // Eliminar post
     async delete(req, res) {
         try {
-            // Nota: En formularios HTML simples usamos GET o POST para borrar
-            await postRepository.delete(req.params.id); // Asegúrate de tener delete en tu repo
+            await postService.deletePost(req.params.id);
             res.redirect("/posts");
         } catch (error) {
             res.status(500).send(error.message);
