@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD de Posts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h2 class="mb-4">Crear Nuevo Post</h2>
+    
+    <form action="/posts/create" method="POST" class="mb-5 border p-4 bg-light rounded">
+        <div class="mb-3">
+            <input type="text" name="title" placeholder="Título (mín 5)" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <textarea name="content" placeholder="Contenido (mín 10)" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="hashtags" placeholder="Hashtags (ej: node, mongo)" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Publicar</button>
+    </form>
+
+    <h2 class="mb-4">Muro de Publicaciones</h2>
+    <div class="row">
+        <% if (posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><%= post.title %></h5>
+                            <p class="card-text"><%= post.content %></p>
+                            
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <strong>Autor:</strong> 
+                                    <%= post.user ? post.user.name + " " + post.user.lastName : "Usuario no encontrado" %>
+                                </small>
+                            </p>
+
+                            <% if (post.hashtags && post.hashtags.length > 0) { %>
+                                <div class="mb-2">
+                                    <% post.hashtags.forEach(tag => { %>
+                                        <span class="badge bg-secondary">#<%= tag %></span>
+                                    <% }) %>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <a href="/posts/edit/<%= post._id %>" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="/posts/delete/<%= post._id %>" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este post?')">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="alert alert-info">No hay publicaciones disponibles. ¡Crea la primera!</div>
+        <% } %>
+    </div>
+</body>
+</html>
